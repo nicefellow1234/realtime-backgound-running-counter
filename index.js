@@ -16,10 +16,6 @@ if (fs.existsSync(counterFilePath)) {
 
 app.use(express.static('public'));
 
-app.get('/counter', (req, res) => {
-  res.json({ counter });
-});
-
 app.post('/start-counter', (req, res) => {
   if (!intervalId) {
     startCounter();
