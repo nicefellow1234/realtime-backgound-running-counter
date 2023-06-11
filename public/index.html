@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Counter App</title>
+</head>
+<body>
+  <button id="startButton">Start Counter</button>
+  <button id="stopButton">Stop Counter</button>
+  <h1 id="counter">0</h1>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+  <script>
+    const socket = io();
+
+    socket.on('counter-update', (counter) => {
+      document.getElementById('counter').innerText = counter;
+    });
+
+    const startButton = document.getElementById('startButton');
+    startButton.addEventListener('click', () => {
+      fetch('/start-counter', { method: 'POST' });
+    });
+
+    const stopButton = document.getElementById('stopButton');
+    stopButton.addEventListener('click', () => {
+      fetch('/stop-counter', { method: 'POST' });
+    });
+
+    function fetchCounter() {
+      fetch('/counter')
+        .then(response => response.json())
+        .then(data => {
+          document.getElementById('counter').innerText = data.counter;
+        });
+    }
+
+    fetchCounter();
+  </script>
+</body>
+</html>
